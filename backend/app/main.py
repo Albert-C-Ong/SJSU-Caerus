@@ -81,20 +81,21 @@ def login():
             rv = list(cur.fetchone())
 
             if (sha256_crypt.verify(receive_val.get("password"), rv[0])):
-                cur.execute('SELECT club.club_name, club.club_id , club.club_email, club.club_about, club.club_avatar, club.club_background, club.club_award, club.club_location, all_type.alltypes  FROM club LEFT JOIN club_types ON club.club_id =club_types.club_id LEFT JOIN all_type ON club_types.type_id = all_type.type_id')
+                cur.execute('SELECT club.club_id, club.club_name , club.club_email, club.club_about, club.club_avatar, club.club_background, club.club_award, club.club_location, all_type.alltypes  FROM club LEFT JOIN club_types ON club.club_id =club_types.club_id LEFT JOIN all_type ON club_types.type_id = all_type.type_id')
                 rv = cur.fetchall()
                 payload = []
                 content = {}
                 for result in rv:
                     content = {
-                        'club_name': result[0],
-                        'club_email': result[1],
-                        'club_about': result[2],
-                        'club_avatar_img': result[3],
-                        'club_background_img': result[4],
-                        'club_award': result[5],
-                        'club_location': result[6],
-                        'club_type': result[7]
+                        'club_id': result[0],
+                        'club_name': result[1],
+                        'club_email': result[2],
+                        'club_about': result[3],
+                        'club_avatar_img': result[4],
+                        'club_background_img': result[5],
+                        'club_award': result[6],
+                        'club_location': result[7],
+                        'club_type': result[8]
                     }
                     payload.append(content)
                     content = {}
