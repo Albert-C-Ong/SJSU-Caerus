@@ -289,6 +289,7 @@ def registered_new_club():
             cur.execute("INSERT student_club(student_id, club_id) VALUES(%s,%s)",
                         (student_wantto_register, club_aboutto_register,))
             mysql.connection.commit()
+            cur.close()
             return {"status": "good"}
         except Exception as e:
             cur.close()
@@ -318,6 +319,7 @@ def unregistered_clubs():
             cur.execute("DELETE FROM student_club WHERE student_id = %s and club_id= %s",
                         (student_wantto_unregister, club_aboutto_unregister,))
             mysql.connection.commit()
+            cur.close()
             return {"status": "good"}
         except Exception as e:
             cur.close()
