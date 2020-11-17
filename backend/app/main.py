@@ -325,6 +325,52 @@ def unregistered_clubs():
             cur.close()
             return e
 
+# ---------------------------------------------------------------------------- #
+#                              Recommend Page                                  #
+# @param NA                                                                    #
+# @post_value {type:""}                                                        #
+# @return {                                                                    #
+#          club_id: "",                                                        #
+#          club_name: "",                                                      #
+#          club_avatar: "",                                                    #
+#          club_background:"",                                                 #
+#          club_email: "",                                                     #
+#          club_about: "",                                                     #
+#          club_award: "",                                                     #
+#          club_location: ""                                                   #
+#          club_type: "" }                                                     #
+# ---------------------------------------------------------------------------- #
+
+
+@app.route("/recommend", methods=["POST"])
+def recommend_system():
+    if request.method == 'POST':
+        receive_value = request.get_json()
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute('SELECT club.club_id, club.club_name , club.club_email, club.club_about, club.club_avatar, club.club_background, club.club_award, club.club_location, all_type.alltypes  FROM club LEFT JOIN club_types ON club.club_id =club_types.club_id LEFT JOIN all_type ON club_types.type_id = all_type.type_id WHERE all_type.alltypes = %s', (receive_value.get("type"),))
+            rv = cur.fetchall()
+            payload = []
+            content = {}
+            for result in rv:
+                content = {
+                    'club_id': result[0],
+                    'club_name': result[1],
+                    'club_email': result[2],
+                    'club_about': result[3],
+                    'club_avatar_img': result[4],
+                    'club_background_img': result[5],
+                    'club_award': result[6],
+                    'club_location': result[7],
+                    'club_type': result[8]}
+                payload.append(content)
+                content = {}
+            cur.close()
+            return jsonify(payload)
+        except Exception as e:
+            cur.close()
+            return e
+
 
 if __name__ == '__main__':
     app.run(debug=True)
