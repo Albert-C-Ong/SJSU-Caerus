@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Cha0moinguoi'
+app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'clubs'
 mysql = MySQL(app)
 
@@ -370,7 +370,6 @@ def recommend_system():
         except Exception as e:
             cur.close()
             return e
-
 
 if __name__ == '__main__':
     app.run(debug=True)
