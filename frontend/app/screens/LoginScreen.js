@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Image } from "react-native";
 import * as Yup from "yup";
 
@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
 function LoginScreen(props) {
   return (
     <Screen style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/logo-red.png")} />
+      <Image style={styles.logo} source={require("../assets/AppLogo.png")} />
 
       <AppForm
         initialValues={{ email: "", password: "" }}
@@ -46,12 +46,14 @@ function LoginScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:"#352da6",
     padding: 10,
   },
   logo: {
-    width: 80,
+    width: 500,
     height: 80,
     alignSelf: "center",
+    resizeMode:"contain",
     marginTop: 50,
     marginBottom: 20,
   },
