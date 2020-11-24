@@ -9,7 +9,7 @@ export default function Splash({ navigation }) {
         }, 3000);
     },[])
     return (
-        <Image style={styles.logo} source={require('../assets/AppLogo.png')} />
+        <Image style={styles.logo} source={require('../assets/Applogo1.png')} />
     )
 }
 const styles = StyleSheet.create({
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
         width: null,
         height: null,
         resizeMode: 'contain',
-        backgroundColor: '#352da6',
-        alignContent:'center'
+        alignContent: 'center',
+        backgroundColor: '#ffff'
       }
 
   });

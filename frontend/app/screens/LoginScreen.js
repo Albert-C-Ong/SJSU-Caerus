@@ -24,7 +24,7 @@ function LoginScreen(props) {
       })
       .then((resJson) => {
         if (resJson[0].status === "Login successful") {
-          navigation.navigate("Home");
+          navigation.navigate("Tab");
         } else {
           alert('Check your email and password again');
         }
@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
     borderColor: "#FFF",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#4630eb",
+    backgroundColor: "powderblue",
     marginLeft: 45,
     marginRight:45
   },
   buttonText: {
-    color: "#FFFF",
+    color: "#edf800",
     fontWeight: "400",
   },
   logo: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   titleStyle: {
     fontSize: 25,
     paddingLeft: 20,
-    color:"#4630eb"
+    color:"#edf800"
   }
 });
 
