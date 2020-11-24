@@ -1,53 +1,93 @@
-import React, { useEffect } from "react";
-import { StyleSheet, Image } from "react-native";
-import * as Yup from "yup";
+import React, { useEffect,useState } from "react";
+import { StyleSheet, Image, Text,View,TextInput,Alert } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native';
 
-import Screen from "../components/Screen";
-import { AppForm, AppFormField, SubmitButton } from "../components/forms";
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(4).label("Password"),
-});
 
 function LoginScreen(props) {
-  return (
-    <Screen style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/AppLogo.png")} />
+  const [user_email, set_user_Email] = useState("");
+  const [password, setPassword] = useState("");
+  const { inputStyle, bigButton, buttonText } = styles;
+  const navigation = useNavigation();
 
-      <AppForm
-        initialValues={{ email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
-        validationSchema={validationSchema}
+  const onSignIn = () => {
+    fetch("http://10.0.0.231/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ user_email: user_email, password: password }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resJson) => {
+        if (resJson[0].status === "Login successful") {
+          navigation.navigate("Home");
+        } else {
+          alert('Check your email and password again');
+        }
+      })
+      .catch((err) => err);
+  };
+  return (
+    <View style = {{backgroundColor:"#ffff", flex:1}} >
+      <Image style={styles.logo} source={require('../assets/Applogo1.png')} />
+      <Text style={styles.titleStyle}>Email</Text>
+      <TextInput
+        style={inputStyle}
+        placeholder="Enter your email"
+        value={user_email}
+        onChangeText={(text) => set_user_Email(text)}
+      />
+      <Text style={styles.titleStyle}>Password</Text>
+      <TextInput
+        style={inputStyle}
+        placeholder="Enter your password"
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry
+      />
+      <TouchableOpacity
+        style={bigButton}
+        onPress={() => {
+          onSignIn();
+        }}
       >
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="email"
-          keyboardType="email-address"
-          name="email"
-          placeholder="Email"
-          textContentType="emailAddress"
-        />
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          name="password"
-          placeholder="Password"
-          secureTextEntry
-          textContentType="password"
-        />
-        <SubmitButton title="Login" />
-      </AppForm>
-    </Screen>
-  );
+        <Text style={buttonText}>SIGN IN</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{alignItems:"center"}} onPress={()=>{navigation.navigate('Register')}}>
+        <Text>Not having an account?</Text>
+      </TouchableOpacity>
+    </View>)
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor:"#352da6",
-    padding: 10,
+  inputStyle: {
+    height: 50,
+    backgroundColor: "#ebedf0",
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight:10,
+    borderRadius: 20,
+    paddingLeft: 30,
+  },
+  bigButton: {
+    height: 50,
+    borderRadius: 20,
+    marginTop:10,
+    borderWidth: 1,
+    borderColor: "#FFF",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#4630eb",
+    marginLeft: 45,
+    marginRight:45
+  },
+  buttonText: {
+    color: "#FFFF",
+    fontWeight: "400",
   },
   logo: {
     width: 500,
@@ -57,6 +97,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 20,
   },
+  titleStyle: {
+    fontSize: 25,
+    paddingLeft: 20,
+    color:"#4630eb"
+  }
 });
 
 export default LoginScreen;

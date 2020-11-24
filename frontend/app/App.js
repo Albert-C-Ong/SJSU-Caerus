@@ -5,6 +5,7 @@ import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from "../frontpage/screens/LoginScreen";
 import RegisterScreen from "../frontpage/screens/RegisterScreen";
+import HomeScreen from "../frontpage/screens/HomeScreen";
 import Splash from "../frontpage/screens/Splash";
 const Stack = createStackNavigator();
 export default function App() {
@@ -14,7 +15,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen name="Splash" component={Splash} options={{headerShown:false}}/>
-        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown:false }}/>
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ title: '' }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
