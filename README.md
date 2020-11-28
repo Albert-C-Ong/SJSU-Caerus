@@ -1,7 +1,7 @@
 # SJSU-Caerus
 
 <h1> Thinh's new update on front end </h1>
-<img src="./Progress/HomePage.gif">
+<img src="./Progress/Recommend.gif">
 ## Overview
 SJSU Caerus: A club finding app
 
