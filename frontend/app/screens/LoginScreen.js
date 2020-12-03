@@ -1,15 +1,17 @@
-import React, { useEffect,useState } from "react";
-import { StyleSheet, Image, Text,View,TextInput,Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Image, Text, View, TextInput, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from '@react-navigation/native';
-
-
-function LoginScreen(props) {
-  const [user_email, set_user_Email] = useState("");
+import { useNavigation } from "@react-navigation/native";
+function LoginScreen() {
+  const [user_email, set_user_Email] = useState();
   const [password, setPassword] = useState("");
   const { inputStyle, bigButton, buttonText } = styles;
   const navigation = useNavigation();
-
+  useEffect(() =>
+    navigation.addListener("beforeRemove", (e) => {
+      e.preventDefault();
+    })
+  );
   const onSignIn = () => {
     fetch("http://10.0.0.231/login", {
       method: "POST",
@@ -23,17 +25,17 @@ function LoginScreen(props) {
         return res.json();
       })
       .then((resJson) => {
-        if (resJson[0].status === "Login successful") {
-          navigation.navigate("Tab");
+        if (resJson[0].status === "Login Fail") {
+          alert("Check your email and password again");
         } else {
-          alert('Check your email and password again');
+          navigation.navigate("Tab", { info: resJson, email: user_email });
         }
       })
       .catch((err) => err);
   };
   return (
-    <View style = {{backgroundColor:"#ffff", flex:1}} >
-      <Image style={styles.logo} source={require('../assets/Applogo1.png')} />
+    <View style={{ backgroundColor: "#ffff", flex: 1 }}>
+      <Image style={styles.logo} source={require("../assets/Applogo1.png")} />
       <Text style={styles.titleStyle}>Email</Text>
       <TextInput
         style={inputStyle}
@@ -57,10 +59,16 @@ function LoginScreen(props) {
       >
         <Text style={buttonText}>SIGN IN</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{alignItems:"center"}} onPress={()=>{navigation.navigate('Register')}}>
-        <Text>Not having an account?</Text>
+      <TouchableOpacity
+        style={{ alignItems: "center" }}
+        onPress={() => {
+          navigation.navigate("Register");
+        }}
+      >
+        <Text style={styles.buttonText}>Not having an account?</Text>
       </TouchableOpacity>
-    </View>)
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -69,39 +77,39 @@ const styles = StyleSheet.create({
     backgroundColor: "#ebedf0",
     marginBottom: 10,
     marginLeft: 10,
-    marginRight:10,
+    marginRight: 10,
     borderRadius: 20,
     paddingLeft: 30,
   },
   bigButton: {
     height: 50,
     borderRadius: 20,
-    marginTop:10,
+    marginTop: 10,
     borderWidth: 1,
     borderColor: "#FFF",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "powderblue",
     marginLeft: 45,
-    marginRight:45
+    marginRight: 45,
   },
   buttonText: {
-    color: "#edf800",
+    color: "#B10D65",
     fontWeight: "400",
   },
   logo: {
     width: 500,
     height: 80,
     alignSelf: "center",
-    resizeMode:"contain",
+    resizeMode: "contain",
     marginTop: 50,
     marginBottom: 20,
   },
   titleStyle: {
     fontSize: 25,
     paddingLeft: 20,
-    color:"#edf800"
-  }
+    color: "#B10D65",
+  },
 });
 
 export default LoginScreen;

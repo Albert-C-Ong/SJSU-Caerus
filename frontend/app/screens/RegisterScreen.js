@@ -5,9 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert, Image
+  Alert,
+  Image,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 export default function RegisterScreen(props) {
   const { inputStyle, bigButton, buttonText } = styles;
   const [user_email, set_user_email] = useState("");
@@ -22,7 +23,11 @@ export default function RegisterScreen(props) {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ user_email: user_email, name: name, password: password }),
+      body: JSON.stringify({
+        user_email: user_email,
+        name: name,
+        password: password,
+      }),
     })
       .then((res) => {
         return res.json();
@@ -39,7 +44,7 @@ export default function RegisterScreen(props) {
     Alert.alert(
       "Notice",
       "Sign up successful",
-      [{ text: "OK", onPress: () => navigation.navigate('Login') }],
+      [{ text: "OK", onPress: () => navigation.navigate("Login") }],
       { cancelable: false }
     );
   };
@@ -52,8 +57,8 @@ export default function RegisterScreen(props) {
     );
   };
   return (
-    <View style = {{backgroundColor:"#ffff", flex:1}}>
-       <Image style={styles.logo} source={require('../assets/Applogo1.png')} />
+    <View style={{ backgroundColor: "#ffff", flex: 1 }}>
+      <Image style={styles.logo} source={require("../assets/Applogo1.png")} />
       <TextInput
         style={inputStyle}
         placeholder="Enter your name"
@@ -100,30 +105,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#ebedf0",
     marginBottom: 10,
     marginLeft: 10,
-    marginRight:10,
+    marginRight: 10,
     borderRadius: 20,
     paddingLeft: 30,
   },
   bigButton: {
     height: 50,
     borderRadius: 20,
-    marginTop:10,
+    marginTop: 10,
     borderWidth: 1,
     borderColor: "#FFF",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#4630eb",
+    backgroundColor: "powderblue",
     marginLeft: 45,
-    marginRight:45
+    marginRight: 45,
   },
   buttonText: {
-    color: "#FFFF",
+    color: "#B10D65",
     fontWeight: "400",
-  },logo: {
+  },
+  logo: {
     width: 500,
     height: 80,
     alignSelf: "center",
-    resizeMode:"contain",
+    resizeMode: "contain",
     marginTop: 50,
     marginBottom: 20,
   },
